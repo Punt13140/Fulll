@@ -1,5 +1,18 @@
 {
+    "name": "punt13140/fulll-fleet-app",
+    "authors": [
+        {
+            "name": "NICOLAU Bastien",
+            "email": "nicolau.bastien@proton.me"
+        }
+    ],
     "require-dev": {
-        "behat/behat": "^3.14"
+        "behat/behat": "^3.14",
+        "phpunit/phpunit": "^11.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "FleetApp\\": "src/"
+        }
     }
 }
