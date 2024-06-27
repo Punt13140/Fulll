@@ -7,7 +7,7 @@ Feature: Register a vehicle
     @critical
     Scenario: I can register a vehicle
         Given my fleet
-#        And a vehicle
+        And a vehicle
 #        When I register this vehicle into my fleet
 #        Then this vehicle should be part of my vehicle fleet
 #

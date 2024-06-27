@@ -6,7 +6,7 @@ Feature: Park a vehicle
 
   Background:
     Given my fleet
-#    And a vehicle
+    And a vehicle
 #    And I have registered this vehicle into my fleet
 #
 #  @critical

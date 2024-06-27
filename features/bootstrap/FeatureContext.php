@@ -3,6 +3,7 @@
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
 use FleetApp\Domain\Fleet;
+use FleetApp\Domain\Vehicle;
 
 /**
  * Defines application features from the specific context.
@@ -10,6 +11,7 @@ use FleetApp\Domain\Fleet;
 class FeatureContext implements Context
 {
     private Fleet $fleet;
+    private Vehicle $vehicle;
 
     public function __construct()
     {
@@ -21,12 +23,12 @@ class FeatureContext implements Context
     {
         $this->fleet = new Fleet();
     }
-//
-//    #[Given('a vehicle')]
-//    public function aVehicle()
-//    {
-//        throw new PendingException();
-//    }
+
+    #[Given('a vehicle')]
+    public function aVehicle(): void
+    {
+        $this->vehicle = new Vehicle();
+    }
 //
 //    #[Given('I have registered this vehicle into my fleet')]
 //    public function iHaveRegisteredThisVehicleIntoMyFleet()
