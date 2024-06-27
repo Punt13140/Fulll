@@ -17,7 +17,6 @@ class FeatureContext implements Context
     {
     }
 
-
     #[Given('my fleet')]
     public function myFleet(): void
     {
@@ -29,13 +28,13 @@ class FeatureContext implements Context
     {
         $this->vehicle = new Vehicle();
     }
-//
-//    #[Given('I have registered this vehicle into my fleet')]
-//    public function iHaveRegisteredThisVehicleIntoMyFleet()
-//    {
-//        throw new PendingException();
-//    }
-//
+
+    #[Given('I have registered this vehicle into my fleet')]
+    public function iHaveRegisteredThisVehicleIntoMyFleet(): void
+    {
+        $this->fleet->registerVehicle($this->vehicle);
+    }
+
 //    #[Given('a location')]
 //    public function aLocation()
 //    {
