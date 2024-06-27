@@ -1,6 +1,6 @@
 <?php
 
-namespace FleetApp\Domain;
+namespace FleetApp\Domain\Entity;
 
 class Fleet
 {

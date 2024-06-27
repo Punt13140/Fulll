@@ -4,9 +4,10 @@ use Behat\Behat\Context\Context;
 use Behat\Step\Given;
 use Behat\Step\Then;
 use Behat\Step\When;
-use FleetApp\Domain\Fleet;
-use FleetApp\Domain\Location;
-use FleetApp\Domain\Vehicle;
+use FleetApp\Domain\Entity\Fleet;
+use FleetApp\Domain\Entity\Location;
+use FleetApp\Domain\Entity\Vehicle;
+use FleetApp\Domain\Exception\Vehicle\AlreadyParkedAtThisLocationException;
 use PHPUnit\Framework\Assert;
 
 /**
@@ -17,10 +18,13 @@ class FeatureContext implements Context
     private Fleet $fleet;
     private Vehicle $vehicle;
     private Location $location;
+    private ?string $exceptionMessage = null;
 
     public function __construct()
     {
     }
+
+    /* <-- Background park_vehicle --> */
 
     #[Given('my fleet')]
     public function myFleet(): void
@@ -40,6 +44,10 @@ class FeatureContext implements Context
         $this->fleet->registerVehicle($this->vehicle);
     }
 
+    /* -- -- */
+
+    /* <-- Scenario: Successfully park a vehicle --> */
+
     #[Given('a location')]
     public function aLocation(): void
     {
@@ -57,25 +65,44 @@ class FeatureContext implements Context
     {
         Assert::assertEquals($this->location, $this->vehicle->location, "The vehicle is not parked at the expected location");
     }
-//
-//    #[Given('my vehicle has been parked into this location')]
-//    public function myVehicleHasBeenParkedIntoThisLocation()
-//    {
-//        throw new PendingException();
-//    }
-//
-//    #[When('I try to park my vehicle at this location')]
-//    public function iTryToParkMyVehicleAtThisLocation()
-//    {
-//        throw new PendingException();
-//    }
-//
-//    #[Then('I should be informed that my vehicle is already parked at this location')]
-//    public function iShouldBeInformedThatMyVehicleIsAlreadyParkedAtThisLocation()
-//    {
-//        throw new PendingException();
-//    }
-//
+
+    /* -- -- */
+
+    /* <-- Scenario: Can't localize my vehicle to the same location two times in a row --> */
+
+    #[Given('my vehicle has been parked into this location')]
+    public function myVehicleHasBeenParkedIntoThisLocation(): void
+    {
+        $this->vehicle->park($this->location);
+    }
+
+    #[When('I try to park my vehicle at this location')]
+    public function iTryToParkMyVehicleAtThisLocation(): void
+    {
+        try {
+            $this->vehicle->park($this->location);
+        } catch (Exception $exception) {
+            $this->exceptionMessage = $exception->getMessage();
+        }
+    }
+
+    #[Then('I should be informed that my vehicle is already parked at this location')]
+    public function iShouldBeInformedThatMyVehicleIsAlreadyParkedAtThisLocation(): void
+    {
+        Assert::assertNotNull(
+            $this->exceptionMessage,
+            "I was not informed at all that my vehicle is already parked at this location",
+        );
+
+        Assert::assertEquals(
+            AlreadyParkedAtThisLocationException::$override_message,
+            $this->exceptionMessage,
+            "I was informed that something went wrong, but not that my vehicle is already parked at this location",
+        );
+    }
+
+    /* -- -- */
+
 //    #[When('I register this vehicle into my fleet')]
 //    public function iRegisterThisVehicleIntoMyFleet()
 //    {
