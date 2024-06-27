@@ -7,13 +7,13 @@ Feature: Park a vehicle
   Background:
     Given my fleet
     And a vehicle
-#    And I have registered this vehicle into my fleet
-#
-#  @critical
-#  Scenario: Successfully park a vehicle
-#    And a location
-#    When I park my vehicle at this location
-#    Then the known location of my vehicle should verify this location
+    And I have registered this vehicle into my fleet
+
+  @critical
+  Scenario: Successfully park a vehicle
+    And a location
+    When I park my vehicle at this location
+    Then the known location of my vehicle should verify this location
 #
 #  Scenario: Can't localize my vehicle to the same location two times in a row
 #    And a location

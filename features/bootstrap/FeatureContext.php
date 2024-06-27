@@ -2,8 +2,12 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
+use Behat\Step\Then;
+use Behat\Step\When;
 use FleetApp\Domain\Fleet;
+use FleetApp\Domain\Location;
 use FleetApp\Domain\Vehicle;
+use PHPUnit\Framework\Assert;
 
 /**
  * Defines application features from the specific context.
@@ -12,6 +16,7 @@ class FeatureContext implements Context
 {
     private Fleet $fleet;
     private Vehicle $vehicle;
+    private Location $location;
 
     public function __construct()
     {
@@ -26,7 +31,7 @@ class FeatureContext implements Context
     #[Given('a vehicle')]
     public function aVehicle(): void
     {
-        $this->vehicle = new Vehicle();
+        $this->vehicle = new Vehicle("test");
     }
 
     #[Given('I have registered this vehicle into my fleet')]
@@ -35,23 +40,23 @@ class FeatureContext implements Context
         $this->fleet->registerVehicle($this->vehicle);
     }
 
-//    #[Given('a location')]
-//    public function aLocation()
-//    {
-//        throw new PendingException();
-//    }
-//
-//    #[When('I park my vehicle at this location')]
-//    public function iParkMyVehicleAtThisLocation()
-//    {
-//        throw new PendingException();
-//    }
-//
-//    #[Then('the known location of my vehicle should verify this location')]
-//    public function theKnownLocationOfMyVehicleShouldVerifyThisLocation()
-//    {
-//        throw new PendingException();
-//    }
+    #[Given('a location')]
+    public function aLocation(): void
+    {
+        $this->location = new Location(0.0, 0.0);
+    }
+
+    #[When('I park my vehicle at this location')]
+    public function iParkMyVehicleAtThisLocation(): void
+    {
+        $this->vehicle->park($this->location);
+    }
+
+    #[Then('the known location of my vehicle should verify this location')]
+    public function theKnownLocationOfMyVehicleShouldVerifyThisLocation(): void
+    {
+        Assert::assertEquals($this->location, $this->vehicle->location, "The vehicle is not parked at the expected location");
+    }
 //
 //    #[Given('my vehicle has been parked into this location')]
 //    public function myVehicleHasBeenParkedIntoThisLocation()
