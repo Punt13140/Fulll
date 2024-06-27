@@ -2,7 +2,6 @@
 
 namespace FleetApp\Domain\Entity;
 
-use Exception;
 use FleetApp\Domain\Exception\Vehicle\AlreadyParkedAtThisLocationException;
 
 class Vehicle
@@ -16,7 +15,7 @@ class Vehicle
     }
 
     /**
-     * @throws Exception
+     * @throws AlreadyParkedAtThisLocationException
      */
     public function park(Location $location): self
     {
