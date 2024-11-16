@@ -16,7 +16,11 @@ use PHPUnit\Framework\Assert;
  */
 class FeatureContext implements Context
 {
+    const FLEET_ID = 0;
+    const OTHER_FLEET_ID = 1;
+
     private Fleet $fleet;
+    private Fleet $otherFleet;
     private Vehicle $vehicle;
     private Location $location;
     private ?string $exceptionMessage = null;
@@ -30,7 +34,7 @@ class FeatureContext implements Context
     #[Given('my fleet')]
     public function myFleet(): void
     {
-        $this->fleet = new Fleet(0);
+        $this->fleet = new Fleet(self::FLEET_ID);
     }
 
     #[Given('a vehicle')]
@@ -152,17 +156,17 @@ class FeatureContext implements Context
 
     /* -- -- */
 
-//
-//    #[Given('the fleet of another user')]
-//    public function theFleetOfAnotherUser()
-//    {
-//        throw new PendingException();
-//    }
-//
-//    #[Given('this vehicle has been registered into the other user\'s fleet')]
-//    public function thisVehicleHasBeenRegisteredIntoTheOtherUsersFleet()
-//    {
-//        throw new PendingException();
-//    }
+    /* <-- Scenario: Same vehicle can belong to more than one fleet --> */
 
+    #[Given('the fleet of another user')]
+    public function theFleetOfAnotherUser(): void
+    {
+        $this->otherFleet = new Fleet(self::OTHER_FLEET_ID);
+    }
+
+    #[Given('this vehicle has been registered into the other user\'s fleet')]
+    public function thisVehicleHasBeenRegisteredIntoTheOtherUsersFleet(): void
+    {
+        $this->otherFleet->registerVehicle($this->vehicle);
+    }
 }
