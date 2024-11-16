@@ -95,7 +95,7 @@ class FeatureContext implements Context
         );
 
         Assert::assertEquals(
-            AlreadyParkedAtThisLocationException::$override_message,
+            sprintf(AlreadyParkedAtThisLocationException::$override_message, $this->vehicle->getPlate()),
             $this->exceptionMessage,
             "I was informed that something went wrong, but not that my vehicle is already parked at this location",
         );
@@ -103,17 +103,20 @@ class FeatureContext implements Context
 
     /* -- -- */
 
-//    #[When('I register this vehicle into my fleet')]
-//    public function iRegisterThisVehicleIntoMyFleet()
-//    {
-//        throw new PendingException();
-//    }
-//
-//    #[Then('this vehicle should be part of my vehicle fleet')]
-//    public function thisVehicleShouldBePartOfMyVehicleFleet()
-//    {
-//        throw new PendingException();
-//    }
+    #[When('I register this vehicle into my fleet')]
+    public function iRegisterThisVehicleIntoMyFleet()
+    {
+        $this->fleet->registerVehicle($this->vehicle);
+    }
+
+    #[Then('this vehicle should be part of my vehicle fleet')]
+    public function thisVehicleShouldBePartOfMyVehicleFleet()
+    {
+        Assert::assertTrue(
+            $this->fleet->isVehiculeRegistered($this->vehicle),
+            "The vehicle is not part of the fleet"
+        );
+    }
 //
 //    #[When('I try to register this vehicle into my fleet')]
 //    public function iTryToRegisterThisVehicleIntoMyFleet()
