@@ -6,13 +6,16 @@ use FleetApp\Domain\Exception\Fleet\VehicleAlreadyRegisteredInFleetException;
 
 class Fleet
 {
-    private int $id;
     private array $vehicles = [];
+
+    public function __construct(private int $id)
+    {
+    }
 
     public function registerVehicle(Vehicle $vehicle): self
     {
         foreach ($this->vehicles as $existingVehicle) {
-            if ($existingVehicle->getPlate()->equals($vehicle->getPlate())) {
+            if ($existingVehicle->getPlate() === $vehicle->getPlate()) {
                 throw new VehicleAlreadyRegisteredInFleetException($vehicle, $this);
             }
         }

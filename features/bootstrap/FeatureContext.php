@@ -7,6 +7,7 @@ use Behat\Step\When;
 use FleetApp\Domain\Entity\Fleet;
 use FleetApp\Domain\Entity\Location;
 use FleetApp\Domain\Entity\Vehicle;
+use FleetApp\Domain\Exception\Fleet\VehicleAlreadyRegisteredInFleetException;
 use FleetApp\Domain\Exception\Vehicle\AlreadyParkedAtThisLocationException;
 use PHPUnit\Framework\Assert;
 
@@ -29,7 +30,7 @@ class FeatureContext implements Context
     #[Given('my fleet')]
     public function myFleet(): void
     {
-        $this->fleet = new Fleet();
+        $this->fleet = new Fleet(0);
     }
 
     #[Given('a vehicle')]
@@ -103,32 +104,54 @@ class FeatureContext implements Context
 
     /* -- -- */
 
+    /* <-- Scenario: I can register a vehicle --> */
+
     #[When('I register this vehicle into my fleet')]
-    public function iRegisterThisVehicleIntoMyFleet()
+    public function iRegisterThisVehicleIntoMyFleet(): void
     {
         $this->fleet->registerVehicle($this->vehicle);
     }
 
     #[Then('this vehicle should be part of my vehicle fleet')]
-    public function thisVehicleShouldBePartOfMyVehicleFleet()
+    public function thisVehicleShouldBePartOfMyVehicleFleet(): void
     {
         Assert::assertTrue(
             $this->fleet->isVehiculeRegistered($this->vehicle),
             "The vehicle is not part of the fleet"
         );
     }
-//
-//    #[When('I try to register this vehicle into my fleet')]
-//    public function iTryToRegisterThisVehicleIntoMyFleet()
-//    {
-//        throw new PendingException();
-//    }
-//
-//    #[Then('I should be informed this this vehicle has already been registered into my fleet')]
-//    public function iShouldBeInformedThisThisVehicleHasAlreadyBeenRegisteredIntoMyFleet()
-//    {
-//        throw new PendingException();
-//    }
+
+    /* -- -- */
+
+    /* <-- Scenario: I can't register same vehicle twice --> */
+
+    #[When('I try to register this vehicle into my fleet')]
+    public function iTryToRegisterThisVehicleIntoMyFleet(): void
+    {
+        try {
+            $this->fleet->registerVehicle($this->vehicle);
+        } catch (Exception $exception) {
+            $this->exceptionMessage = $exception->getMessage();
+        }
+    }
+
+    #[Then('I should be informed this this vehicle has already been registered into my fleet')]
+    public function iShouldBeInformedThisThisVehicleHasAlreadyBeenRegisteredIntoMyFleet(): void
+    {
+        Assert::assertNotNull(
+            $this->exceptionMessage,
+            "I was not informed at all that my vehicle has already been registered into my fleet",
+        );
+
+        Assert::assertEquals(
+            sprintf(VehicleAlreadyRegisteredInFleetException::$override_message, $this->vehicle->getPlate(), $this->fleet->getId()),
+            $this->exceptionMessage,
+            "I was informed that something went wrong, but not that my vehicle has already been registered into my fleet",
+        );
+    }
+
+    /* -- -- */
+
 //
 //    #[Given('the fleet of another user')]
 //    public function theFleetOfAnotherUser()
