@@ -3,7 +3,7 @@
 namespace FleetApp\Domain\Entity;
 
 
-readonly class Location
+final readonly class Location
 {
     public function __construct(
         private float  $latitude,

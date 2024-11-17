@@ -4,8 +4,9 @@ namespace FleetApp\App\Command;
 
 use FleetApp\Domain\Entity\User;
 use FleetApp\Domain\Entity\Vehicle;
+use FleetApp\Shared\App\Command\Command;
 
-readonly class RegisterVehicleCommand
+final readonly class RegisterVehicleCommand implements Command
 {
     public function __construct(
         public User    $user,

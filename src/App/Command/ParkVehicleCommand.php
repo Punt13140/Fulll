@@ -3,8 +3,9 @@
 namespace FleetApp\App\Command;
 
 use FleetApp\Domain\Entity\Vehicle;
+use FleetApp\Shared\App\Command\Command;
 
-readonly class ParkVehicleCommand
+final readonly class ParkVehicleCommand implements Command
 {
     public function __construct(
         public Vehicle $vehicle,

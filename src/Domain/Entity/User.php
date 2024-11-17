@@ -4,7 +4,7 @@ namespace FleetApp\Domain\Entity;
 
 use FleetApp\Domain\ValueObject\Uuid;
 
-class User
+final class User
 {
     private ?Fleet $fleet;
 

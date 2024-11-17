@@ -4,8 +4,9 @@ namespace FleetApp\App\Handler;
 
 use FleetApp\App\Command\RegisterVehicleCommand;
 use FleetApp\Infra\FleetRepository;
+use FleetApp\Shared\App\Handler\CommandHandler;
 
-readonly class RegisterVehicleHandler
+final readonly class RegisterVehicleHandler implements CommandHandler
 {
     public function __construct(
         private readonly FleetRepository $fleetRepository,

@@ -5,8 +5,9 @@ namespace FleetApp\App\Handler;
 use FleetApp\App\Command\ParkVehicleCommand;
 use FleetApp\Domain\Entity\Location;
 use FleetApp\Infra\VehicleRepository;
+use FleetApp\Shared\App\Handler\CommandHandler;
 
-readonly class ParkVehicleHandler
+final readonly class ParkVehicleHandler implements CommandHandler
 {
     public function __construct(
         private VehicleRepository $vehicleRepository,

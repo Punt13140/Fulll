@@ -4,7 +4,7 @@ namespace FleetApp\Domain\Entity;
 
 use FleetApp\Domain\Exception\Vehicle\AlreadyParkedAtThisLocationException;
 
-class Vehicle
+final class Vehicle
 {
     public ?Location $location = null;
 
@@ -18,7 +18,7 @@ class Vehicle
     public function park(Location $location): self
     {
         if ($this->location === $location) {
-            throw new AlreadyParkedAtThisLocationException($this);
+            throw new AlreadyParkedAtThisLocationException($this->plate);
         }
 
         $this->location = $location;

@@ -5,7 +5,7 @@ namespace FleetApp\Domain\Entity;
 use FleetApp\Domain\Exception\Fleet\VehicleAlreadyRegisteredInFleetException;
 use FleetApp\Domain\ValueObject\Uuid;
 
-class Fleet
+final class Fleet
 {
     private array $vehicles = [];
 
@@ -17,7 +17,7 @@ class Fleet
     {
         foreach ($this->vehicles as $existingVehicle) {
             if ($existingVehicle->getPlate() === $vehicle->getPlate()) {
-                throw new VehicleAlreadyRegisteredInFleetException($vehicle, $this);
+                throw new VehicleAlreadyRegisteredInFleetException($vehicle->getPlate(), $this->getId());
             }
         }
 
