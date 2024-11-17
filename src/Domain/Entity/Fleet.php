@@ -3,12 +3,13 @@
 namespace FleetApp\Domain\Entity;
 
 use FleetApp\Domain\Exception\Fleet\VehicleAlreadyRegisteredInFleetException;
+use FleetApp\Domain\ValueObject\Uuid;
 
 class Fleet
 {
     private array $vehicles = [];
 
-    public function __construct(private int $id)
+    public function __construct(private readonly Uuid $uuid)
     {
     }
 
@@ -36,14 +37,9 @@ class Fleet
         return false;
     }
 
-    public function getId(): int
+    public function getId(): string
     {
-        return $this->id;
-    }
-
-    public function setId(int $id): void
-    {
-        $this->id = $id;
+        return $this->uuid->value;
     }
 
     public function getVehicles(): array

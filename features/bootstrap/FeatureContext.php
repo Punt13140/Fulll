@@ -6,6 +6,7 @@ use Behat\Step\Then;
 use Behat\Step\When;
 use FleetApp\Domain\Entity\Fleet;
 use FleetApp\Domain\Entity\Location;
+use FleetApp\Domain\Entity\User;
 use FleetApp\Domain\Entity\Vehicle;
 use FleetApp\Domain\Exception\Fleet\VehicleAlreadyRegisteredInFleetException;
 use FleetApp\Domain\Exception\Vehicle\AlreadyParkedAtThisLocationException;
@@ -16,9 +17,6 @@ use PHPUnit\Framework\Assert;
  */
 class FeatureContext implements Context
 {
-    const FLEET_ID = 0;
-    const OTHER_FLEET_ID = 1;
-
     private Fleet $fleet;
     private Fleet $otherFleet;
     private Vehicle $vehicle;
@@ -34,7 +32,8 @@ class FeatureContext implements Context
     #[Given('my fleet')]
     public function myFleet(): void
     {
-        $this->fleet = new Fleet(self::FLEET_ID);
+        $user1 = new User("test");
+        $this->fleet = $user1->getFleet();
     }
 
     #[Given('a vehicle')]
@@ -161,7 +160,8 @@ class FeatureContext implements Context
     #[Given('the fleet of another user')]
     public function theFleetOfAnotherUser(): void
     {
-        $this->otherFleet = new Fleet(self::OTHER_FLEET_ID);
+        $user2 = new User("test 2");
+        $this->otherFleet = $user2->getFleet();
     }
 
     #[Given('this vehicle has been registered into the other user\'s fleet')]

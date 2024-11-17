@@ -8,7 +8,7 @@ use FleetApp\Domain\Entity\Vehicle;
 
 class VehicleAlreadyRegisteredInFleetException extends Exception
 {
-    static string $override_message = "The vehicle (plate=%s) is already registered in fleet (id=%d).";
+    static string $override_message = "The vehicle (plate=%s) is already registered in fleet (id=%s).";
 
     public function __construct(
         private readonly Vehicle $vehicle,
