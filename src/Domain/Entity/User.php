@@ -2,7 +2,7 @@
 
 namespace FleetApp\Domain\Entity;
 
-use FleetApp\Domain\ValueObject\Uuid;
+use FleetApp\Domain\ValueObject\SimpleUuid;
 
 final class User
 {
@@ -12,7 +12,7 @@ final class User
         private readonly string $email,
     )
     {
-        $this->fleet = new Fleet(Uuid::generate());
+        $this->fleet = new Fleet(SimpleUuid::generate());
     }
 
     public function getFleet(): ?Fleet

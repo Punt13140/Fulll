@@ -2,9 +2,9 @@
 
 namespace FleetApp\Domain\Exception\Vehicle;
 
-use Exception;
+use FleetApp\Shared\Domain\Exception\DomainException;
 
-class AlreadyParkedAtThisLocationException extends Exception
+class AlreadyParkedAtThisLocationException extends DomainException
 {
     static string $override_message = "The vehicle (plate=%s) is already parked at this location";
 

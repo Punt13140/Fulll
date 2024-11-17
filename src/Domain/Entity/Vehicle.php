@@ -8,7 +8,7 @@ final class Vehicle
 {
     public ?Location $location = null;
 
-    public function __construct(private string $plate)
+    public function __construct(private readonly string $plate)
     {
     }
 
