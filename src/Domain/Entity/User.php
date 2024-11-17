@@ -19,4 +19,9 @@ final class User
     {
         return $this->fleet;
     }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
 }
